@@ -31,25 +31,8 @@ public class HomeController {
         this.roleRepository = roleRepository;
     }
 
-
-
     @GetMapping("/")
     public String homePage(){
-//        User user =new User();
-//        user.setFirstName("Dawid");
-//        user.setLastName("Dobrowolski");
-//        user.setEmail("dawidek66@gmail.com");
-//
-//        user.setPassword("dddddd");
-//
-//        Role role = new Role();
-//        role.setName("ROLE_USER");
-//        roleRepository.save(role);
-//        Set<Role> roles = new HashSet<>();
-//        roles.add(role);
-//        user.setRoles(roles);
-//        userService.saveUser(user);
-
         return "index";
     }
 
