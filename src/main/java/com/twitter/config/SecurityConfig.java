@@ -27,9 +27,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/twitter").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .and().formLogin().loginPage("/login")
+                .and().formLogin().loginPage("/login").usernameParameter("email")
                 .and().logout().logoutSuccessUrl("/").permitAll();
     }
+
     @Bean
     public SpringDataUserDetailsService customUserDetailsService() {
         return new SpringDataUserDetailsService();

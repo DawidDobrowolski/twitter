@@ -8,6 +8,7 @@ import com.twitter.service.UserService;
 import com.twitter.support.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ public class HomeController {
 
     private UserService userService;
     private RoleRepository roleRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public HomeController(UserService userService, RoleRepository roleRepository) {
@@ -61,4 +63,6 @@ public class HomeController {
     public String login() {
         return "login";
     }
+
+
 }
