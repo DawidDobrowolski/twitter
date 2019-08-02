@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/login/register}" method="post" th:object="${user}">
+    <div><label> E-mail : <input type="email" name="email"  th:field="*{email}" /></label></div>
+    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}">E-mail Error</div>
+    <div><label> First name : <input type="text" name="firstName"  th:field="*{firstName}"/> </label></div>
+    <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First name Error</div>
+    <div><label> Last name : <input type="text" name="lastName"  th:field="*{lastName}"/> </label></div>
+    <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last name Error</div>
+    <div><label> Password: <input type="password" name="password" /> </label></div>
+    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
+    <div><label> Confirm password: <input type="password" name="confirmPassword"/> </label></div>
+    <div><input type="submit" value="Sign In"/></div>
+</form>
+</body>
+</html>

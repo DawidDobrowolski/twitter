@@ -3,8 +3,8 @@
 <body>
 <h1>Custom login page</h1>
 
-<form th:action="@{/login}" method="post">
-    <div><label> User Name : <input type="email" name="email"/> </label></div>
+<form th:action="@{/login/login}" method="post">
+    <div><label> E-mail : <input type="email" name="email"/> </label></div>
     <div><label> Password: <input type="password" name="password"/> </label></div>
     <div><input type="submit" value="Sign In"/></div>
 </form>

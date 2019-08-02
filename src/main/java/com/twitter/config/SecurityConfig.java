@@ -20,14 +20,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     DataSource dataSource;
 
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/twitter").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .and().formLogin().loginPage("/login").usernameParameter("email")
+                .and().formLogin().loginPage("/login/login").usernameParameter("email")
+                .defaultSuccessUrl("/twitter", true)
                 .and().logout().logoutSuccessUrl("/").permitAll();
     }
 

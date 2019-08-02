@@ -1,0 +1,16 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<body>
+<div th:fragment="pageheader">
+<span sec:authorize="!isAuthenticated()">
+<a th:href="@{/login/login}">Login</a>
+<a th:href="@{/login/register}">Register</a>
+</span>
+
+    <span sec:authorize="isAuthenticated()">
+<form th:action="@{/logout}" method="post">
+<input type="submit" value="Wyloguj"/>
+</form>
+</span>
+</div>
+</body>
+</html>
