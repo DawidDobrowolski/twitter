@@ -3,6 +3,7 @@ package com.twitter.service;
 import com.twitter.entity.Role;
 import com.twitter.entity.User;
 import com.twitter.support.CurrentUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +16,7 @@ public class SpringDataUserDetailsService implements org.springframework.securit
 
     private UserService userService;
 
+    @Autowired
     public void setUserRepository(UserService userService) {
         this.userService = userService;
     }

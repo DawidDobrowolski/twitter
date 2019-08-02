@@ -59,6 +59,8 @@ public class HomeController {
         User entityUser = customUser.getUser();
         return "this is user id " +entityUser.getId() ;
     }
+
+
     @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
     public String login() {
         return "login";
