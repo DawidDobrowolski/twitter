@@ -25,6 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/twitter").authenticated()
+                .antMatchers("/twitter/*").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .and().formLogin().loginPage("/login/login").usernameParameter("email")
                 .defaultSuccessUrl("/twitter", true)

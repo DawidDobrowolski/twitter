@@ -25,11 +25,15 @@ public class Tweet {
     @Size(max = 140)
     private String text;
 
-    @NotNull
     private LocalDateTime created;
 
     @OneToMany(mappedBy = "tweet", cascade = CascadeType.REMOVE)
     private List<Comment> comments = new ArrayList<>();
+
+    @PrePersist
+    public void prePersist() {
+        created = LocalDateTime.now();
+    }
 
     public Long getId() {
         return id;
@@ -70,4 +74,5 @@ public class Tweet {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
 }

@@ -129,4 +129,9 @@ public class User {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
+    public String getName() {
+         return firstName + " " + lastName;
+    }
+
 }

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Title</title>
+</head>
+<body>
+<a th:href="@{/twitter/add}">Add new tweet</a>
+
+<table border="1">
+    <tr>
+        <th>User</th>
+        <th>Text</th>
+        <th>Created</th>
+        <th>Comments number</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="tweet: ${tweets}">
+        <td>
+            <a th:href="@{/tweet/{id}(id=${tweet.user.id})}"><p th:text="${tweet.user.name}"></p></a>
+        </td>
+        <td th:text="|${#strings.abbreviate(tweet.text,30)}"></td>
+        <td th:text="${tweet.created}"></td>
+        <td th:text="${#lists.size(tweet.comments)}"></td>
+        <td>
+            <a th:href="@{/tweet/details/${tweet.id}}">Szczegoly</a>
+            <p th:if="${tweet.user.id}==${userId}">
+                <a th:href="@{/tweet/edit/${tweet.id}}">Modyfikuj</a>
+                <a th:href="@{/tweet/delete/${tweet.id}}">Usun</a>
+            </p>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

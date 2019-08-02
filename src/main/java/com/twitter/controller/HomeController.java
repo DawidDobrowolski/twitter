@@ -21,12 +21,6 @@ public class HomeController {
         return "index";
     }
 
-    @GetMapping("/twitter")
-    @ResponseBody
-    public String admin(@AuthenticationPrincipal CurrentUser customUser) {
-        User entityUser = customUser.getUser();
-        return "this is user id " +entityUser.getId() ;
-    }
 
 
 
