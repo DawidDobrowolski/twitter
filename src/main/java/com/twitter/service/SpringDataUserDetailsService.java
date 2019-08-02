@@ -2,7 +2,7 @@ package com.twitter.service;
 
 import com.twitter.entity.Role;
 import com.twitter.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.twitter.support.CurrentUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,12 +11,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.HashSet;
 import java.util.Set;
 
-public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
+public class SpringDataUserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
     private UserService userService;
 
-    @Autowired
-    public UserDetailsService(UserService userService) {
+    public void setUserRepository(UserService userService) {
         this.userService = userService;
     }
 
@@ -28,7 +27,7 @@ public class UserDetailsService implements org.springframework.security.core.use
         for (Role role : user.getRoles()) {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
         }
-        return new org.springframework.security.core.userdetails.User(
-                user.getEmail(), user.getPassword(), grantedAuthorities);
+        return new CurrentUser(user.getEmail(),user.getPassword(),
+                grantedAuthorities, user);
     }
 }
