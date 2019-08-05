@@ -26,9 +26,12 @@ public class Comment {
     @Size(max = 60)
     private String text;
 
-    @NotNull
     private LocalDateTime created;
 
+    @PrePersist
+    public void prePersist() {
+        created = LocalDateTime.now();
+    }
 
     public Long getId() {
         return id;

@@ -72,6 +72,8 @@ public class TweetController {
 
     @GetMapping("/details/{id}")
     public String details(Model model, @PathVariable Long id,@AuthenticationPrincipal CurrentUser customUser) {
+        User entityUser = customUser.getUser();
+        model.addAttribute("userId", entityUser.getId());
         Tweet tweet = tweetService.getTweetById(id);
         model.addAttribute("tweet", tweet);
         return "tweet/details";
