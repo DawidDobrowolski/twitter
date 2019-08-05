@@ -30,6 +30,15 @@ public class TweetService {
         return tweets;
     }
 
+    public List<Tweet> getAllTweetsByUser(Long id) {
+        List<Tweet> tweets = tweetRepository.getAllByUserId(id);
+        tweets = tweets.stream()
+                .sorted((t1, t2) -> t2.getCreated().compareTo(t1.getCreated()))
+                .collect(Collectors.toList());
+        return tweets;
+    }
+
+
     public void saveTweet(Tweet tweet) {
         tweetRepository.save(tweet);
     }
@@ -41,6 +50,9 @@ public class TweetService {
     public Tweet getTweetByIdWithComments(Long id) {
         Tweet tweet = tweetRepository.findOne(id);
         Hibernate.initialize(tweet.getComments());
+        tweet.setComments(tweet.getComments().stream()
+                .sorted((t1, t2) -> t2.getCreated().compareTo(t1.getCreated()))
+                .collect(Collectors.toList()));
         return tweet;
     }
 

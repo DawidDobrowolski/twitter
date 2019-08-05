@@ -33,6 +33,14 @@ public class TweetController {
         return "/tweet/all";
     }
 
+    @GetMapping("/{id}")
+    public String showAllByUser(@AuthenticationPrincipal CurrentUser customUser, Model model, @PathVariable Long id) {
+        User entityUser = customUser.getUser();
+        model.addAttribute("userId", entityUser.getId());
+        model.addAttribute("tweets", tweetService.getAllTweetsByUser(entityUser.getId()));
+        return "/tweet/all";
+    }
+
     @GetMapping("/add")
     public String addTweet(Model model) {
         model.addAttribute("tweet", new Tweet());
@@ -74,7 +82,7 @@ public class TweetController {
     public String details(Model model, @PathVariable Long id,@AuthenticationPrincipal CurrentUser customUser) {
         User entityUser = customUser.getUser();
         model.addAttribute("userId", entityUser.getId());
-        Tweet tweet = tweetService.getTweetById(id);
+        Tweet tweet = tweetService.getTweetByIdWithComments(id);
         model.addAttribute("tweet", tweet);
         return "tweet/details";
     }
