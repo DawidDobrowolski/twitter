@@ -1,7 +1,6 @@
 package com.twitter.controller;
 
 import com.twitter.entity.Comment;
-import com.twitter.entity.Tweet;
 import com.twitter.service.CommentService;
 import com.twitter.support.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 
@@ -42,5 +44,26 @@ public class CommentController {
         commentService.saveComment(comment);
         return "redirect:/twitter/details/" + tweetId;
     }
+
+    @GetMapping("/edit/{tweetId}/{id}")
+    public String editTweet(Model model, @PathVariable Long tweetId, @PathVariable Long id,@AuthenticationPrincipal CurrentUser customUser) {
+        Comment comment = commentService.getCommentById(id);
+        if(comment.getUser().getId() != customUser.getUser().getId()){
+            return "redirect:/twitter/details/" + tweetId;
+        }
+        model.addAttribute("tweetId", tweetId);
+        model.addAttribute("comment", comment);
+        return "comment/add";
+    }
+
+    @GetMapping("/delete/{tweetId}/{id}")
+    public String delete(@PathVariable Long id,@PathVariable Long tweetId,@AuthenticationPrincipal CurrentUser customUser) {
+        Comment comment = commentService.getCommentById(id);
+        if(comment.getUser().getId() == customUser.getUser().getId()){
+            commentService.deleteComment(comment);
+        }
+        return "redirect:/twitter/details/" + tweetId;
+    }
+
 
 }

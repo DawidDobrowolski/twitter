@@ -27,10 +27,10 @@
             <a th:href="@{/tweet/{id}(id=${tweet.user.id})}"><p th:text="${tweet.user.name}"></p></a>
         </td>
         <td th:text="|${#strings.abbreviate(comment.text,30)}"></td>
-        <td th:text="${#temporals.format(tweet.created, 'dd-MM-yyyy HH:mm')}"></td>
+        <td th:text="${#temporals.format(comment.created, 'dd-MM-yyyy HH:mm')}"></td>
         <td th:if="${comment.user.id}==${userId}">
-                <a th:href="@{/comment/edit/{id}(id=${tweet.id})/{id}(id=${comment.id})}">Edit</a>
-                <a th:href="@{/comment/delete/{id}(id=${tweet.id})/{id}(id=${comment.id})}">Delete</a>
+                <a th:href="@{/comment/edit/{tweetId}/{id}(id=${comment.id}, tweetId=${comment.tweet.id})}">Edit</a>
+                <a th:href="@{/comment/delete/{tweetId}/{id}(id=${comment.id}, tweetId=${comment.tweet.id})}">Delete</a>
         </td>
     </tr>
 </table>
