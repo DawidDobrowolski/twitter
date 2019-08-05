@@ -5,9 +5,11 @@
     <title>Title</title>
 </head>
 <body>
+<header th:include="fragments/header :: pageheader"></header>
 <form th:action="@{/twitter/add}" method="post" th:object="${tweet}">
     <input type="hidden" name="id"  th:field="*{id}" />
     <input type="hidden" name="user"  th:field="*{user}" />
+    <input type="hidden" name="created"  th:field="*{created}" />
     <div><label> Text : <textarea name="text" th:field="*{text}"></textarea></label></div>
     <div th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text error</div>
     <div><input type="submit" value="Save"/></div>

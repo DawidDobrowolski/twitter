@@ -3,6 +3,7 @@ package com.twitter.service;
 
 import com.twitter.entity.Tweet;
 import com.twitter.repository.TweetRepository;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,5 +34,17 @@ public class TweetService {
         tweetRepository.save(tweet);
     }
 
+    public Tweet getTweetById(Long id) {
+        return tweetRepository.findOne(id);
+    }
 
+    public Tweet getTweetByIdWithComments(Long id) {
+        Tweet tweet = tweetRepository.findOne(id);
+        Hibernate.initialize(tweet.getComments());
+        return tweet;
+    }
+
+    public void deleteTweet(Long id) {
+        tweetRepository.delete(id);
+    }
 }

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<header th:include="fragments/header :: pageheader"></header>
+
+
+<h3>User: </h3><p th:text="${tweet.user.name}" />
+<h3>Text: </h3><p th:text="${tweet.text}" />
+<h3>Created: </h3><p th:text="${#temporals.format(tweet.created, 'dd-MM-yyyy HH:mm')}" />
+
+</body>
+</html>
