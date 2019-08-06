@@ -37,7 +37,7 @@ public class TweetController {
     public String showAllByUser(@AuthenticationPrincipal CurrentUser customUser, Model model, @PathVariable Long id) {
         User entityUser = customUser.getUser();
         model.addAttribute("userId", entityUser.getId());
-        model.addAttribute("tweets", tweetService.getAllTweetsByUser(entityUser.getId()));
+        model.addAttribute("tweets", tweetService.getAllTweetsByUser(id));
         return "/tweet/all";
     }
 
@@ -52,7 +52,7 @@ public class TweetController {
         if (result.hasErrors()) {
             return "tweet/add";
         }
-        if(tweet.getUser().getId() == null || tweet.getUser().getId() == customUser.getUser().getId()){
+        if(tweet.getUser() == null || tweet.getUser().getId() == customUser.getUser().getId()){
             tweet.setUser(customUser.getUser());
             tweetService.saveTweet(tweet);
         }

@@ -2,9 +2,10 @@ package com.twitter.entity;
 
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "massage")
+@Table(name = "message")
 public class Message {
 
     @Id
@@ -15,8 +16,16 @@ public class Message {
     private User sender;
 
     @ManyToOne
-    private User reciever;
+    private User receiver;
 
+    private boolean readed = false;
+
+    private LocalDateTime created;
+
+    @PrePersist
+    public void prePersist() {
+        created = LocalDateTime.now();
+    }
 
     public Long getId() {
         return id;
@@ -34,11 +43,27 @@ public class Message {
         this.sender = sender;
     }
 
-    public User getReciever() {
-        return reciever;
+    public User getReceiver() {
+        return receiver;
     }
 
-    public void setReciever(User reciever) {
-        this.reciever = reciever;
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
+    }
+
+    public boolean isReaded() {
+        return readed;
+    }
+
+    public void setReaded(boolean readed) {
+        this.readed = readed;
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
     }
 }

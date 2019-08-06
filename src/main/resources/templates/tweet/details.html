@@ -24,7 +24,7 @@
     </tr>
     <tr th:each="comment: ${tweet.comments}">
         <td>
-            <a th:href="@{/tweet/{id}(id=${tweet.user.id})}"><p th:text="${tweet.user.name}"></p></a>
+            <a th:href="@{/twitter/{id}(id=${comment.user.id})}"><p th:text="${comment.user.name}"></p></a>
         </td>
         <td th:text="|${#strings.abbreviate(comment.text,30)}"></td>
         <td th:text="${#temporals.format(comment.created, 'dd-MM-yyyy HH:mm')}"></td>

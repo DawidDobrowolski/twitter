@@ -38,11 +38,11 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    @OneToMany(mappedBy = "sender")
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.REMOVE)
     private List<Message> sendMessages = new ArrayList<>();
 
-    @OneToMany(mappedBy = "reciever")
-    private List<Message> receicedMessages = new ArrayList<>();
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.REMOVE)
+    private List<Message> receivedMessages = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Tweet> tweets = new ArrayList<>();
@@ -98,12 +98,12 @@ public class User {
         this.sendMessages = sendMessages;
     }
 
-    public List<Message> getReceicedMessages() {
-        return receicedMessages;
+    public List<Message> getReceivedMessages() {
+        return receivedMessages;
     }
 
-    public void setReceicedMessages(List<Message> receicedMessages) {
-        this.receicedMessages = receicedMessages;
+    public void setReceivedMessages(List<Message> receivedMessages) {
+        this.receivedMessages = receivedMessages;
     }
 
     public Set<Role> getRoles() {
@@ -133,5 +133,6 @@ public class User {
     public String getName() {
          return firstName + " " + lastName;
     }
+
 
 }
