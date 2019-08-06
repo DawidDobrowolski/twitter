@@ -1,7 +1,10 @@
 package com.twitter.entity;
 
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,6 +20,10 @@ public class Message {
 
     @ManyToOne
     private User receiver;
+
+    @NotBlank
+    @Size(max = 1500)
+    private String text;
 
     private boolean readed = false;
 
@@ -65,5 +72,13 @@ public class Message {
 
     public void setCreated(LocalDateTime created) {
         this.created = created;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 }

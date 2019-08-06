@@ -34,9 +34,8 @@ public class TweetController {
     }
 
     @GetMapping("/{id}")
-    public String showAllByUser(@AuthenticationPrincipal CurrentUser customUser, Model model, @PathVariable Long id) {
-        User entityUser = customUser.getUser();
-        model.addAttribute("userId", entityUser.getId());
+    public String showAllByUser(Model model, @PathVariable Long id) {
+        model.addAttribute("userId", id);
         model.addAttribute("tweets", tweetService.getAllTweetsByUser(id));
         return "/tweet/all";
     }

@@ -6,9 +6,12 @@
 </head>
 <body>
 <header th:include="fragments/header :: pageheader"></header>
-
+<p th:if="${#authentication.getPrincipal().getUser().getId()}==${userId}">
 <a th:href="@{/twitter/add}">Add new tweet</a>
-
+</p>
+<p th:if="${#authentication.getPrincipal().getUser().getId()}!=${userId}">
+    <a th:href="@{/message/send/{id}(id=${userId})}">Send message</a>
+</p>
 <table border="1">
     <tr>
         <th>User</th>
@@ -26,7 +29,7 @@
         <td th:text="${#lists.size(tweet.comments)}"></td>
         <td>
             <a th:href="@{/twitter/details/{id}(id=${tweet.id})}">Details</a>
-            <p th:if="${tweet.user.id}==${userId}">
+            <p th:if="${#authentication.getPrincipal().getUser().getId()}==${tweet.user.id}">
                 <a th:href="@{/twitter/edit/{id}(id=${tweet.id})}">Edit</a>
                 <a th:href="@{/twitter/delete/{id}(id=${tweet.id})}">Delete</a>
             </p>
