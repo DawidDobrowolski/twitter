@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -18,10 +19,11 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final BCryptPasswordEncoder passwordEncoder;;
+    private final BCryptPasswordEncoder passwordEncoder;
+    ;
 
 
-@Autowired
+    @Autowired
     public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -51,5 +53,13 @@ public class UserService {
 
     public BCryptPasswordEncoder getPasswordEncoder() {
         return passwordEncoder;
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public List<User> searchAllUsers(String search) {
+        return userRepository.customSearchUser(search);
     }
 }

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<header th:include="fragments/header :: pageheader"></header>
+<a th:href="@{/user/search}">Search user</a>
+
+<table border="1">
+    <tr>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="user: ${users}">
+        <span th:if="${#authentication.getPrincipal().getUser().getId()}!=${user.id}">
+        <td th:text="${user.firstName}"></td>
+        <td th:text="${user.lastName}"></td>
+        <td>
+            <a th:href="@{/twitter/{id}(id=${user.id})}">Show tweets</a>
+            <a th:href="@{/message/send/{id}(id=${user.id})}">Send e-mail</a>
+        </td>
+        </span>
+    </tr>
+</table>
+</body>
+</html>

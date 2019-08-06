@@ -41,7 +41,9 @@ public class MessageController {
         if (result.hasErrors()) {
             return "message/add";
         }
-        messageService.saveMessage(message, receiverId, customUser.getUser().getId());
+        if (customUser.getUser().getId()!=receiverId) {
+            messageService.saveMessage(message, receiverId, customUser.getUser().getId());
+        }
         return "redirect:/twitter";
     }
 
