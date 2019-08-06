@@ -5,10 +5,10 @@
 <a th:href="@{/login/login}">Login</a>
 <a th:href="@{/login/register}">Register</a>
 </span>
-
     <span sec:authorize="isAuthenticated()">
 <form th:action="@{/logout}" method="post">
-<input type="submit" value="Wyloguj"/>
+<input type="submit" value="Logout"/>
+        <a th:href="@{/message/inbox}">Messages</a>
 </form>
 </span>
 </div>

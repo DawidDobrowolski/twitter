@@ -36,14 +36,38 @@ public class MessageController {
         return "/message/send";
     }
 
-    @PostMapping("/send/{id}")
-    public String sendMessage(@Valid Message message, BindingResult result, @AuthenticationPrincipal CurrentUser customUser, @PathVariable Long id) {
+    @PostMapping("/send/{receiverId}")
+    public String sendMessage(@Valid Message message, BindingResult result, @AuthenticationPrincipal CurrentUser customUser, @PathVariable Long receiverId) {
         if (result.hasErrors()) {
             return "message/add";
         }
-        messageService.saveMessage(message, id, customUser.getUser().getId());
+        messageService.saveMessage(message, receiverId, customUser.getUser().getId());
         return "redirect:/twitter";
     }
 
+    @GetMapping("/inbox")
+    public String showInbox(Model model, @AuthenticationPrincipal CurrentUser customUser) {
+        model.addAttribute("messages", messageService.getInboxMessages(customUser.getUser().getId()));
+        model.addAttribute("mailbox","Inbox");
+        return "/message/mailbox";
+    }
 
+    @GetMapping("/outbox")
+    public String showOutbox(Model model, @AuthenticationPrincipal CurrentUser customUser) {
+        model.addAttribute("messages", messageService.getOutboxMessages(customUser.getUser().getId()));
+        model.addAttribute("mailbox","Outbox");
+        return "/message/mailbox";
+    }
+
+    @GetMapping("/talk/{id}")
+    public String showTalk(Model model, @PathVariable Long id) {
+        model.addAttribute("messages", messageService.getTalkMessages(id));
+        return "/message/talk";
+    }
+
+    @GetMapping("/details/{id}")
+    public String showDetails(Model model, @PathVariable Long id) {
+        model.addAttribute("message", messageService.readMessageById(id));
+        return "/message/details";
+    }
 }

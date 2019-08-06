@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<header th:include="fragments/header :: pageheader"></header>
+
+
+<h3>From: </h3><p th:text="${message.sender.name}" />
+<h3>To: </h3><p th:text="${message.receiver.name}" />
+<h3>Created: </h3><p th:text="${#temporals.format(message.created, 'dd-MM-yyyy HH:mm')}" />
+<h3>Text: </h3><p th:text="${message.text}" />
+
+</body>
+</html>

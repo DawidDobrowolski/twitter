@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<header th:include="fragments/header :: pageheader"></header>
+<a th:href="@{/message/inbox}">Inbox</a>
+<a th:href="@{/message/outbox}">Outbox</a>
+
+<h2 th:text="${mailbox}"></h2>
+
+<table border="1">
+    <tr th:each="message: ${messages}">
+        <div th:switch="${#authentication.getPrincipal().getUser().getId()}">
+            <span th:case="${message.sender.id}">
+                <td></td>
+                <td>
+                    <p th:text="|${#strings.abbreviate(message.text,30)}"></p>
+                    <p th:text="${#temporals.format(message.created, 'dd-MM-yyyy HH:mm')}"></p>
+                    <a th:href="@{/message/details/{id}(id=${message.id})}">Details</a>
+                </td>
+            </span>
+            <span th:case="*">
+                       <td>
+                    <p th:text="|${#strings.abbreviate(message.text,30)}"></p>
+                    <p th:text="${#temporals.format(message.created, 'dd-MM-yyyy HH:mm')}"></p>
+                    <a th:href="@{/message/details/{id}(id=${message.id})}">Details</a>
+                </td>
+                    <td></td>
+            </span>
+        </div>
+    </tr>
+</table>
+</body>
+</html>

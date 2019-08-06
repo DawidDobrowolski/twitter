@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<header th:include="fragments/header :: pageheader"></header>
+<a th:href="@{/message/inbox}">Inbox</a>
+<a th:href="@{/message/outbox}">Outbox</a>
+
+<h2 th:text="${mailbox}"></h2>
+
+<table border="1">
+    <tr>
+        <th>User</th>
+        <th>Text</th>
+        <th>Created</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="message: ${messages}">
+        <td>
+            <div th:switch="${mailbox}">
+            <span th:case="Inbox">
+                <a th:href="@{/message/talk/{id}(id=${message.sender.id})}">
+            <p th:text="${message.sender.name}"></p></a>
+            </span>
+                <span th:case="Outbox">
+                <a th:href="@{/message/talk/{id}(id=${message.receiver.id})}">
+            <p th:text="${message.receiver.name}"></p></a>
+            </span>
+            </div>
+        </td>
+        <td th:text="|${#strings.abbreviate(message.text,30)}"></td>
+        <td th:text="${#temporals.format(message.created, 'dd-MM-yyyy HH:mm')}"></td>
+        <td>
+            <a th:href="@{/message/details/{id}(id=${message.id})}">Details</a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
