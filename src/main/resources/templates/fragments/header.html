@@ -1,17 +1,44 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div th:fragment="pageheader">
-<span sec:authorize="!isAuthenticated()">
-<a th:href="@{/login/login}">Login</a>
-<a th:href="@{/login/register}">Register</a>
-</span>
-    <span sec:authorize="isAuthenticated()">
-<form th:action="@{/logout}" method="post">
-<input type="submit" value="Logout"/>
-        <a th:href="@{/message/inbox}">Messages</a>
-        <a th:href="@{/user/list}">Users</a>
-</form>
-</span>
+    <nav class="navbar navbar-light navbar-expand-lg" style="background-color: #e3f2fd;">
+        <span sec:authorize="!isAuthenticated()">
+            <a class="btn btn-outline-primary" href="/">Home</a>
+        </span>
+        <span sec:authorize="isAuthenticated()">
+            <a class="btn btn-outline-primary btn-lg" href="/twitter">Home</a>
+        </span>
+        <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+                data-target="#navbarNav" data-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-flex" id="navbarNav">
+            <span sec:authorize="isAuthenticated()">
+            <ul class="navbar-nav p-2">
+                <li class=font-weight-bold">
+                    <a class="nav-link" href="/twitter">My tweets</a>
+                </li>
+                <li class="font-weight-bold">
+                    <a class="nav-link" href="/message/inbox">Messages</a>
+                </li>
+                <li class="font-weight-bold">
+                    <a class="nav-link" href="/user/list">Users</a>
+                </li>
+            </ul>
+            </span>
+            <ul class="form-inline my-2 my-lg-0 ml-auto p-2">
+                <span sec:authorize="!isAuthenticated()">
+                    <a class="btn btn-primary" th:href="@{/login/login}">Login</a>
+                    <a class="btn btn-primary" th:href="@{/login/register}">Register</a>
+                </span>
+                <span sec:authorize="isAuthenticated()">
+                    <form method="post" th:action="@{/logout}">
+                        <button type="submit" class="btn btn-primary">Logout</button>
+                    </form>
+                </span>
+            </ul>
+        </div>
+    </nav>
 </div>
 </body>
 </html>

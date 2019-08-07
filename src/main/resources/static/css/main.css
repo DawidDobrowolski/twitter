@@ -1,0 +1,9 @@
+body {
+    background: url(http://serwer1786337.home.pl/formularz/twitter2.png)
+    no-repeat center center fixed;
+    background-size: cover;
+}
+
+#navbarNav{
+    font-size: 20px;
+}
