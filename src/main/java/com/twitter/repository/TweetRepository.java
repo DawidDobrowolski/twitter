@@ -9,4 +9,5 @@ public interface TweetRepository extends JpaRepository<Tweet, Long> {
 
     List<Tweet> getAllByUserId(Long id);
 
+
 }

@@ -2,55 +2,109 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title>Twitter</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html" ; charset=UTF-8"/>
     <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
     <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"/>
     <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet"/>
+    <script type="text/javascript" th:src="@{js/twitter.js}"></script>
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/5.9.0/css/all.css}" media="all"/>
 </head>
 <body>
 <header th:include="fragments/header :: pageheader"></header>
-<p th:if="${#authentication.getPrincipal().getUser().getId()}==${userId}">
-<a th:href="@{/twitter/add}">Add new tweet</a>
-</p>
-<p th:if="${#authentication.getPrincipal().getUser().getId()}!=${userId}">
-    <a th:href="@{/message/send/{id}(id=${userId})}">Send message</a>
-</p>
+<div class="container card mt-3 col-md-6 transparetnt text-center">
+    <div class="card-body">
+        <div th:if="${#authentication.getPrincipal().getUser().getId()}==${user.id}">
+            <a class="btn btn-outline-primary btn-lg" th:href="@{/twitter/add}">Add new tweet <i
+                    class="fab fa-twitter"></i></a>
+            <br>
+            <br>
+            <div class="alert alert-primary sep">Latest Tweets</div>
+        </div>
+        <div th:if="${#authentication.getPrincipal().getUser().getId()}!=${user.id}">
+            <a class="btn btn-outline-primary btn-lg" th:href="@{/message/send/{id}(id=${user.id})}">Send message to
+                <span th:text="${user.name}"></span> <i class="fas fa-envelope"></i>
 
-<table border="1">
-    <tr>
-        <th>User</th>
-        <th>Text</th>
-        <th>Created</th>
-        <th>Comments number</th>
-        <th>Actions</th>
-    </tr>
-    <tr th:each="tweet: ${tweets}">
-        <td>
-            <a th:href="@{/twitter/{id}(id=${tweet.user.id})}"><p th:text="${tweet.user.name}"></p></a>
-        </td>
-        <td th:text="|${#strings.abbreviate(tweet.text,30)}"></td>
-        <td th:text="${#temporals.format(tweet.created, 'dd-MM-yyyy HH:mm')}"></td>
-        <td th:text="${#lists.size(tweet.comments)}"></td>
-        <td>
-            <a th:href="@{/twitter/details/{id}(id=${tweet.id})}">Details</a>
-            <p th:if="${#authentication.getPrincipal().getUser().getId()}==${tweet.user.id}">
-                <a th:href="@{/twitter/edit/{id}(id=${tweet.id})}">Edit</a>
-                <a th:href="@{/twitter/delete/{id}(id=${tweet.id})}">Delete</a>
-            </p>
-        </td>
-    </tr>
-</table>
-<br>
-<span th:if="${#authentication.getPrincipal().getUser().getId()}==${userId}">
-<form th:action="@{/twitter/add}" method="post" th:object="${tweet}">
-    <input type="hidden" name="id"  th:field="*{id}" />
-    <input type="hidden" name="user"  th:field="*{user}" />
-    <input type="hidden" name="created"  th:field="*{created}" />
-    <div><label> Text : <textarea name="text" th:field="*{text}"></textarea></label></div>
-    <div th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text error</div>
-    <div><input type="submit" value="Save"/></div>
-</form>
-</span>
+            </a>
+            <br>
+            <br>
+            <div class="alert alert-primary" th:text="|Latest Tweets of ${user.name}|"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <ul class="timeline">
+                    <li class="border rounded tweet" th:each="tweet: ${tweets}">
+                        <a th:href="@{/twitter/{id}(id=${tweet.user.id})}"><span
+                                th:text="${tweet.user.name}"></span></a>
+                        <p class="float-right"
+                           th:text="${#temporals.format(tweet.created, 'dd-MM-yyyy HH:mm')}"></p>
+                        <br>
+                        <div>
+                            <span th:text="${#strings.abbreviate(tweet.text,100)}"></span>
+                            <br>
+                            <p class="float-left commentNum">
+                                <span>Comments: </span>
+                                <span th:text="${#lists.size(tweet.comments)}"></span>
+                            </p>
+                            <p class="float-right">
+                                <a class="btn btn-secondary btn-small"
+                                   th:href="@{/twitter/details/{id}(id=${tweet.id})}">Details</a>
+                                <span th:if="${#authentication.getPrincipal().getUser().getId()}==${tweet.user.id}">
+                                    <a class="btn btn-warning btn-small"
+                                       th:href="@{/twitter/edit/{id}(id=${tweet.id})}">Edit</a>
+                                    <a class="btn btn-danger btn-small"
+                                       th:href="@{/twitter/delete/{id}(id=${tweet.id})}" data-toggle="modal"
+                                       data-target="#deleteModal"
+                                       th:attr="data-tweet-id=${tweet.id}"
+                                       title="Delete tweet">Delete</a>
+                                </span>
+                            </p>
+                            <br>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <br>
+        <br>
+        <span th:if="${#authentication.getPrincipal().getUser().getId()}==${user.id}">
+            <div class="alert alert-primary sep"><span>Add new Tweet: <i class="fab fa-twitter"></i></span></div>
+                <form th:action="@{/twitter/add}" method="post" th:object="${tweet}">
+                    <input type="hidden" name="id" th:field="*{id}"/>
+                    <input type="hidden" name="user" th:field="*{user}"/>
+                    <input type="hidden" name="created" th:field="*{created}"/>
+                    <div class="form-group col-md-4 offset-md-4">
+                        <textarea class="form-control input-sm " type="textarea" id="message" placeholder="Tweet text"
+                                  maxlength="140" rows="5" name="text" th:field="*{text}"></textarea>
+                        <span class="help-block"><p id="characterLeft"
+                                                    class="help-block ">You have reached the limit</p></span>
+                    </div>
+                    <div th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text error</div>
+                    <div><input class="btn btn-outline-primary" id="btnSubmit" type="submit" value="Add"
+                                disabled="disabled"/></div>
+                </form>
+                <br>
+        </span>
+    </div>
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete tweet ?</p>
+            </div>
+            <div class="modal-footer">
+                <button id="deleteId" type="button" class="btn btn-primary btn-submit">Confirm</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

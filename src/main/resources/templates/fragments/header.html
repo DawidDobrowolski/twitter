@@ -16,7 +16,7 @@
             <span sec:authorize="isAuthenticated()">
             <ul class="navbar-nav p-2">
                 <li class=font-weight-bold">
-                    <a class="nav-link" href="/twitter">My tweets</a>
+                    <a class="nav-link" th:href="@{/twitter/{userId}(userId=${#authentication.getPrincipal().getUser().getId()})}">My tweets</a>
                 </li>
                 <li class="font-weight-bold">
                     <a class="nav-link" href="/message/inbox">Messages</a>

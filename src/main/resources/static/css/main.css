@@ -7,3 +7,73 @@ body {
 #navbarNav{
     font-size: 20px;
 }
+
+.transparetnt {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+
+ul.timeline {
+    list-style-type: none;
+    position: relative;
+}
+ul.timeline:before {
+    content: ' ';
+    background: #d4d9df;
+    display: inline-block;
+    position: absolute;
+    left: 29px;
+    width: 2px;
+    height: 100%;
+    z-index: 400;
+}
+ul.timeline > li {
+    margin: 20px 0;
+    padding-left: 15px;
+    padding-right: 5px;
+}
+
+ul.timeline > li:before {
+    content: ' ';
+    background: white;
+    display: inline-block;
+    position: absolute;
+    border-radius: 50%;
+    border: 3px solid #429bf5;
+    left: 20px;
+    width: 20px;
+    height: 20px;
+    z-index: 400;
+}
+
+
+.tweet {
+    background: rgba(255, 255, 255, 0.90);
+    border-color: #429bf5 !important;
+    border-width: medium !important;
+    text-align: justify;
+    box-shadow: 8px 8px 8px -4px rgba(0,0,0,0.39);}
+
+.btn-small {
+    padding: 0rem 0.3rem;
+    font-size: 0.700rem;
+    line-height: 1.5;
+    border-radius: 0.1rem;
+    margin-bottom: 3px;
+}
+
+.commentNum {
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 4px;
+    font-style: italic;
+}
+
+.red{
+    color:red;
+}
+
+.sep{
+    font-family: Arial;
+    font-weight: 900;
+}

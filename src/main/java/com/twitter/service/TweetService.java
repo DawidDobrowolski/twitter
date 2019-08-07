@@ -2,7 +2,9 @@ package com.twitter.service;
 
 
 import com.twitter.entity.Tweet;
+import com.twitter.entity.User;
 import com.twitter.repository.TweetRepository;
+import com.twitter.repository.UserRepository;
 import com.twitter.support.CurrentUser;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +19,12 @@ import java.util.stream.Collectors;
 public class TweetService {
 
     private TweetRepository tweetRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    public TweetService(TweetRepository tweetRepository) {
+    public TweetService(TweetRepository tweetRepository, UserRepository userRepository) {
         this.tweetRepository = tweetRepository;
+        this.userRepository = userRepository;
     }
 
     public List<Tweet> getAllTweets() {
@@ -30,6 +34,7 @@ public class TweetService {
                 .collect(Collectors.toList());
         return tweets;
     }
+
 
     public List<Tweet> getAllTweetsByUser(Long id) {
         List<Tweet> tweets = tweetRepository.getAllByUserId(id);
@@ -60,5 +65,9 @@ public class TweetService {
 
     public void deleteTweet(Long id) {
         tweetRepository.delete(id);
+    }
+
+    public User getUserById(Long id){
+        return userRepository.findOne(id);
     }
 }
