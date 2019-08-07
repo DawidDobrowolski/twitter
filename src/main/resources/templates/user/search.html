@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-
+<header th:include="fragments/header :: pageheader"></header>
+<form th:action="@{/user/search}" method="post">
+    <div><label> Search user : <input type="text" name="search"/> </label></div>
+    <div><input type="submit" value="Search"/></div>
+</form>
 </body>
 </html>
