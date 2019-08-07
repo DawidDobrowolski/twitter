@@ -1,21 +1,55 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.springframework.org/schema/security">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Register</title>
+    <meta http-equiv="Content-Type" content="text/html" ; charset=UTF-8"/>
+    <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"/>
+    <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/5.9.0/css/all.css}" media="all"/>
 </head>
 <body>
-<form th:action="@{/login/register}" method="post" th:object="${user}">
-    <div><label> E-mail : <input type="email" name="email"  th:field="*{email}" /></label></div>
-    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}">E-mail Error</div>
-    <div><label> First name : <input type="text" name="firstName"  th:field="*{firstName}"/> </label></div>
-    <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First name Error</div>
-    <div><label> Last name : <input type="text" name="lastName"  th:field="*{lastName}"/> </label></div>
-    <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last name Error</div>
-    <div><label> Password: <input type="password" name="password" /> </label></div>
-    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
-    <div><label> Confirm password: <input type="password" name="confirmPassword"/> </label></div>
-    <div><input type="submit" value="Sign In"/></div>
-</form>
+<header th:include="fragments/header :: pageheader"></header>
+<div class="container card mt-3 col-md-6 transparetnt">
+    <div class="card-body">
+        <h1 class="sep">Register <i class="fas fa-edit"></i>
+        </h1>
+        <form th:action="@{/login/register}" method="post" th:object="${user}">
+            <div class="form-group">
+                <label> E-mail :</label>
+                <input class="form-control" type="email" name="email" th:field="*{email}"/>
+            </div>
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">E-mail Error
+            </div>
+            <div class="form-group">
+                <label> First name : </label>
+                <input class="form-control" type="text" name="firstName" th:field="*{firstName}"/>
+            </div>
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First
+                name Error
+            </div>
+            <div class="form-group">
+                <label> Last name : </label>
+                    <input class="form-control" type="text" name="lastName" th:field="*{lastName}"/>
+            </div>
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last name
+                Error
+            </div>
+            <div class="form-group">
+                <label> Password: </label>
+                <input class="form-control" type="password" name="password"/>
+            </div>
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password
+                Error
+            </div>
+            <div class="form-group">
+                <label> Confirm password: </label>
+                <input class="form-control" type="password" name="confirmPassword"/>
+            </div>
+            <div><input class="btn btn-outline-primary" type="submit" value="Register"/></div>
+        </form>
+    </div>
+</div>
 </body>
 </html>

@@ -76,4 +76,5 @@ ul.timeline > li:before {
 .sep{
     font-family: Arial;
     font-weight: 900;
+    text-align: center;
 }
