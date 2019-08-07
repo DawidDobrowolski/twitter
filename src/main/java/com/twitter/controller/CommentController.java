@@ -39,9 +39,7 @@ public class CommentController {
         if (result.hasErrors()) {
             return "comment/add";
         }
-        comment.setTweet(commentService.getTweetById(tweetId));
-        comment.setUser(customUser.getUser());
-        commentService.saveComment(comment);
+       commentService.saveComment(comment, tweetId, customUser);
         return "redirect:/twitter/details/" + tweetId;
     }
 

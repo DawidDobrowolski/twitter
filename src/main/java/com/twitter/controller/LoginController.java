@@ -56,12 +56,4 @@ public class LoginController {
         return "redirect:/login/login";
     }
 
-
-
-
-//    @PostMapping("/login")
-//    public String logged(){
-//        return "redirect:/twitter";
-//    }
-
 }

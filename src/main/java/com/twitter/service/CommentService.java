@@ -1,9 +1,9 @@
 package com.twitter.service;
 
 import com.twitter.entity.Comment;
-import com.twitter.entity.Tweet;
 import com.twitter.repository.CommentRepository;
 import com.twitter.repository.TweetRepository;
+import com.twitter.support.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,12 +22,10 @@ public class CommentService {
     }
 
 
-    public void saveComment(Comment comment){
+    public void saveComment(Comment comment, Long tweetId, CurrentUser customUser ){
+        comment.setTweet(tweetRepository.findOne(tweetId));
+        comment.setUser(customUser.getUser());
         commentRepository.save(comment);
-    }
-
-    public Tweet getTweetById(Long id){
-        return tweetRepository.findOne(id);
     }
 
     public Comment getCommentById(Long id){

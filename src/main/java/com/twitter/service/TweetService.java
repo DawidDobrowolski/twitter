@@ -3,6 +3,7 @@ package com.twitter.service;
 
 import com.twitter.entity.Tweet;
 import com.twitter.repository.TweetRepository;
+import com.twitter.support.CurrentUser;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,8 @@ public class TweetService {
     }
 
 
-    public void saveTweet(Tweet tweet) {
+    public void saveTweet(Tweet tweet, CurrentUser customUser) {
+        tweet.setUser(customUser.getUser());
         tweetRepository.save(tweet);
     }
 

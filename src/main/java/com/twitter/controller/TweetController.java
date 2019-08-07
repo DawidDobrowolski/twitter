@@ -52,8 +52,7 @@ public class TweetController {
             return "tweet/add";
         }
         if(tweet.getUser() == null || tweet.getUser().getId() == customUser.getUser().getId()){
-            tweet.setUser(customUser.getUser());
-            tweetService.saveTweet(tweet);
+            tweetService.saveTweet(tweet, customUser);
         }
         return "redirect:/twitter";
     }
@@ -80,8 +79,8 @@ public class TweetController {
     @GetMapping("/details/{id}")
     public String details(Model model, @PathVariable Long id,@AuthenticationPrincipal CurrentUser customUser) {
         User entityUser = customUser.getUser();
-        model.addAttribute("userId", entityUser.getId());
         Tweet tweet = tweetService.getTweetByIdWithComments(id);
+        model.addAttribute("userId", entityUser.getId());
         model.addAttribute("tweet", tweet);
         return "tweet/details";
     }
