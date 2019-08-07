@@ -1,6 +1,7 @@
 package com.twitter.controller;
 
 
+import com.twitter.entity.Comment;
 import com.twitter.entity.Tweet;
 import com.twitter.entity.User;
 import com.twitter.service.TweetService;
@@ -28,6 +29,7 @@ public class TweetController {
     @GetMapping("")
     public String showAll(@AuthenticationPrincipal CurrentUser customUser, Model model) {
         User entityUser = customUser.getUser();
+        model.addAttribute("tweet", new Tweet());
         model.addAttribute("userId", entityUser.getId());
         model.addAttribute("tweets", tweetService.getAllTweets());
         return "/tweet/all";
@@ -35,6 +37,7 @@ public class TweetController {
 
     @GetMapping("/{id}")
     public String showAllByUser(Model model, @PathVariable Long id) {
+        model.addAttribute("tweet", new Tweet());
         model.addAttribute("userId", id);
         model.addAttribute("tweets", tweetService.getAllTweetsByUser(id));
         return "/tweet/all";
@@ -80,6 +83,8 @@ public class TweetController {
     public String details(Model model, @PathVariable Long id,@AuthenticationPrincipal CurrentUser customUser) {
         User entityUser = customUser.getUser();
         Tweet tweet = tweetService.getTweetByIdWithComments(id);
+        model.addAttribute("tweetId", id);
+        model.addAttribute("comment", new Comment());
         model.addAttribute("userId", entityUser.getId());
         model.addAttribute("tweet", tweet);
         return "tweet/details";

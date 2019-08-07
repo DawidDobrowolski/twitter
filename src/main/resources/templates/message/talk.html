@@ -33,5 +33,14 @@
         </div>
     </tr>
 </table>
+<br>
+
+<form th:action="@{/message/send/{receiverId}(receiverId=${receiver.id})}" method="post" th:object="${message}">
+    <div><label> Message : <textarea name="text" th:field="*{text}"></textarea></label></div>
+    <div th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text error</div>
+    <div><input type="submit" value="Send"/></div>
+</form>
+
+
 </body>
 </html>

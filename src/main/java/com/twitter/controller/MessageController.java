@@ -44,7 +44,7 @@ public class MessageController {
         if (customUser.getUser().getId()!=receiverId) {
             messageService.saveMessage(message, receiverId, customUser.getUser().getId());
         }
-        return "redirect:/twitter";
+        return "redirect:/message/talk/" + receiverId;
     }
 
     @GetMapping("/inbox")
@@ -63,6 +63,8 @@ public class MessageController {
 
     @GetMapping("/talk/{id}")
     public String showTalk(Model model, @PathVariable Long id) {
+        model.addAttribute("receiver", messageService.getUserById(id));
+        model.addAttribute("message", new Message());
         model.addAttribute("messages", messageService.getTalkMessages(id));
         return "/message/talk";
     }
