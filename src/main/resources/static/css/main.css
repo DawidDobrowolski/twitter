@@ -14,6 +14,11 @@ body {
 .email-user {
     font-size: 18px;
     font-weight: bold;
+}
+.jumbotron{
+    heght:100%;
+    width:100%;
+    padding-top: 12%
 
 }
 
@@ -28,7 +33,7 @@ ul.timeline2:before {
     display: inline-block;
     position: absolute;
     left: 29px;
-    width: 2px;
+    width: 3px;
     height: 100%;
     z-index: 400;
 }
