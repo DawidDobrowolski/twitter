@@ -1,49 +1,101 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.springframework.org/schema/security">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Tweet details</title>
+    <meta http-equiv="Content-Type" content="text/html" ; charset=UTF-8"/>
+    <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"/>
+    <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet"/>
+    <script type="text/javascript" th:src="@{/js/twitterDetails.js}"></script>
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/5.9.0/css/all.css}" media="all"/>
 </head>
 <body>
 <header th:include="fragments/header :: pageheader"></header>
-
-
-<h3>User: </h3><p th:text="${tweet.user.name}" />
-<h3>Text: </h3><p th:text="${tweet.text}" />
-<h3>Created: </h3><p th:text="${#temporals.format(tweet.created, 'dd-MM-yyyy HH:mm')}" />
-
-<hr>
-<a th:href="@{/comment/add/{id}(id=${tweet.id})}">Add new comment</a>
-<br>
-<table border="1">
-    <tr>
-        <th>User</th>
-        <th>Text</th>
-        <th>Created</th>
-        <th>Actions</th>
-    </tr>
-    <tr th:each="comment: ${tweet.comments}">
-        <td>
-            <a th:href="@{/twitter/{id}(id=${comment.user.id})}"><p th:text="${comment.user.name}"></p></a>
-        </td>
-        <td th:text="|${#strings.abbreviate(comment.text,30)}"></td>
-        <td th:text="${#temporals.format(comment.created, 'dd-MM-yyyy HH:mm')}"></td>
-        <td th:if="${comment.user.id}==${userId}">
-                <a th:href="@{/comment/edit/{tweetId}/{id}(id=${comment.id}, tweetId=${comment.tweet.id})}">Edit</a>
-                <a th:href="@{/comment/delete/{tweetId}/{id}(id=${comment.id}, tweetId=${comment.tweet.id})}">Delete</a>
-        </td>
-    </tr>
-</table>
-
-<form th:action="@{/comment/add/{id}(id=${tweetId})}" method="post" th:object="${comment}">
-    <input type="hidden" name="id"  th:field="*{id}" />
-    <input type="hidden" name="user"  th:field="*{user}" />
-    <input type="hidden" name="created"  th:field="*{created}" />
-    <div><label> Text : <textarea name="text" th:field="*{text}"></textarea></label></div>
-    <div th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text error</div>
-    <div><input type="submit" value="Save"/></div>
-</form>
-
-
+<div class="container card mt-3 col-md-6 transparent text-center">
+    <div class="card-body">
+        <h1 class="sep">Tweet details <i class="fab fa-twitter"></i>
+        </h1>
+        <br>
+        <div class="border rounded tweet tweet-details">
+            <strong><a th:href="@{/twitter/{id}(id=${tweet.user.id})}"><span
+                    th:text="${tweet.user.name}"></span></a>
+                <p class="float-right"
+                   th:text="${#temporals.format(tweet.created, 'dd-MM-yyyy HH:mm')}"></p></strong>
+            <hr>
+            <div>
+                <span th:text="${tweet.text}"></span>
+            </div>
+        </div>
+        <br>
+        <br>
+        <a class="btn btn-outline-primary btn-lg" th:href="@{/comment/add/{id}(id=${tweet.id})}">Add new comment <i
+                class="far fa-comment-alt"></i>
+        </a>
+        <br>
+        <br>
+        <div class="hr-sect">Comments</div>
+        <div class="media comment-box transparent" th:each=" comment: ${tweet.comments}">
+            <div class="media-left">
+                <i class="far fa-comment-alt fa-2x"></i>
+            </div>
+            <div class="media-body">
+                <p class="media-heading">
+                    <a th:href="@{/twitter/{id}(id=${comment.user.id})}">
+                        <span th:text="${comment.user.name}"></span></a>
+                    <span style="float: right" th:text="${#temporals.format(comment.created, 'dd-MM-yyyy HH:mm')}">31.12.2019</span>
+                </p>
+                <p>
+                    <span th:text="${comment.text}"></span>
+                    <span style="float: right" th:if="${comment.user.id}==${userId}">
+                        <a class="btn btn-warning btn-small" th:href="@{/comment/edit/{tweetId}/{id}(id=${comment.id}, tweetId=${comment.tweet.id})}">Edit</a>
+                        <a class="btn btn-danger btn-small" th:href="@{/comment/delete/{tweetId}/{id}(id=${comment.id}, tweetId=${comment.tweet.id})}"
+                           data-toggle="modal"
+                           data-target="#deleteModal"
+                           th:attr="data-tweet-id=${comment.tweet.id}, data-comment-id=${comment.id}"
+                           title="Delete tweet">Delete</a>
+                    </span>
+                </p>
+            </div>
+        </div>
+        <br>
+        <div class="hr-sect">Add new comment</div>
+        <br>
+        <form th:action="@{/comment/add/{id}(id=${tweetId})}" method="post" th:object="${comment}">
+            <input type="hidden" name="id" th:field="*{id}"/>
+            <input type="hidden" name="user" th:field="*{user}"/>
+            <input type="hidden" name="created" th:field="*{created}"/>
+            <div class="form-group col-md-4 offset-md-4">
+                <textarea class="form-control input-sm " id="message" placeholder="Comment text"
+                          maxlength="60" rows="3" name="text" th:field="*{text}"></textarea>
+                <span class="help-block"><p id="characterLeft"
+                                            class="help-block ">You have reached the limit</p></span>
+            </div>
+            <div th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text error</div>
+            <div><input class="btn btn-outline-primary" id="btnSubmit" type="submit" value="Add" disabled="disabled"/>
+            </div>
+        </form>
+        <br>
+    </div>
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete comment ?</p>
+            </div>
+            <div class="modal-footer">
+                <button id="deleteId" type="button" class="btn btn-primary btn-submit">Confirm</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

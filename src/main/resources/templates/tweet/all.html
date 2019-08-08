@@ -7,28 +7,31 @@
     <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"/>
     <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet"/>
-    <script type="text/javascript" th:src="@{js/twitter.js}"></script>
+    <script type="text/javascript" th:src="@{/js/twitter.js}"></script>
     <link rel="stylesheet" th:href="@{/webjars/font-awesome/5.9.0/css/all.css}" media="all"/>
 </head>
 <body>
 <header th:include="fragments/header :: pageheader"></header>
-<div class="container card mt-3 col-md-6 transparetnt text-center">
+<div class="container card mt-3 col-md-6 transparent text-center">
     <div class="card-body">
         <div th:if="${#authentication.getPrincipal().getUser().getId()}==${user.id}">
             <a class="btn btn-outline-primary btn-lg" th:href="@{/twitter/add}">Add new tweet <i
                     class="fab fa-twitter"></i></a>
             <br>
             <br>
-            <div class="alert alert-primary sep">Latest Tweets</div>
+            <div class="alert alert-primary sep" th:if="${#httpServletRequest.requestURI}=='/twitter'"
+                 th:text="|Latest Tweets|"></div>
+            <div class="alert alert-primary sep" th:if="${#httpServletRequest.requestURI}!='/twitter'"
+                 th:text="|Latest Tweets of ${user.name}|"></div>
         </div>
         <div th:if="${#authentication.getPrincipal().getUser().getId()}!=${user.id}">
             <a class="btn btn-outline-primary btn-lg" th:href="@{/message/send/{id}(id=${user.id})}">Send message to
                 <span th:text="${user.name}"></span> <i class="fas fa-envelope"></i>
-
             </a>
             <br>
             <br>
-            <div class="alert alert-primary" th:text="|Latest Tweets of ${user.name}|"></div>
+            <div class="alert alert-primary sep" th:if="${#httpServletRequest.requestURI}!='/twitter'"
+                 th:text="|Latest Tweets of ${user.name}|"></div>
         </div>
         <div class="row">
             <div class="col-md-6 offset-md-3">
