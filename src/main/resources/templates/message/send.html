@@ -1,17 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Send e-mail</title>
+    <meta http-equiv="Content-Type" content="text/html" ; charset=UTF-8"/>
+    <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"/>
+    <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet"/>
+    <script type="text/javascript" th:src="@{/js/messageSend.js}"></script>
 </head>
 <body>
 <header th:include="fragments/header :: pageheader"></header>
-
-<h2>Send message to: <p th:text="${receiver.name}"/></h2>
-<form th:action="@{/message/send/{receiverId}(receiverId=${receiver.id})}" method="post" th:object="${message}">
-    <div><label> Message : <textarea name="text" th:field="*{text}"></textarea></label></div>
-    <div th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text error</div>
-    <div><input type="submit" value="Send"/></div>
-</form>
+<div class="container card mt-3 col-md-8 transparent">
+    <div class="card-body">
+        <h2 class="hr-sect" th:text="|Send message to: ${receiver.name}|"></h2>
+        <br>
+        <form th:action="@{/message/send/{receiverId}(receiverId=${receiver.id})}" method="post" th:object="${message}">
+            <div>
+                    <textarea class="form-control input-sm " id="message" placeholder="Message text"
+                              maxlength="1500" rows="7" name="text" th:field="*{text}"></textarea>
+                <span class="help-block"><p id="characterLeft" class="help-block ">You have reached the limit</p></span>
+            </div>
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text error</div>
+            <div><input class="btn btn-outline-primary" id="btnSubmit" type="submit" value="Send" disabled="disabled"/>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 </html>

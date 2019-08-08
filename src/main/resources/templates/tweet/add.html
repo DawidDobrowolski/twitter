@@ -27,7 +27,7 @@
                 <span class="help-block"><p id="characterLeft"
                                             class="help-block ">You have reached the limit</p></span>
             </div>
-            <div th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text error</div>
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text error</div>
             <div><input class="btn btn-outline-primary" id="btnSubmit" type="submit" value="Save"/></div>
         </form>
     </div>

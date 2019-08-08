@@ -35,7 +35,7 @@
         </div>
         <div class="row">
             <div class="col-md-6 offset-md-3">
-                <ul class="timeline">
+                <ul class="timeline2">
                     <li class="border rounded tweet" th:each="tweet: ${tweets}">
                         <a th:href="@{/twitter/{id}(id=${tweet.user.id})}"><span
                                 th:text="${tweet.user.name}"></span></a>
@@ -82,7 +82,7 @@
                         <span class="help-block"><p id="characterLeft"
                                                     class="help-block ">You have reached the limit</p></span>
                     </div>
-                    <div th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text error</div>
+                    <div class="alert alert-danger" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text error</div>
                     <div><input class="btn btn-outline-primary" id="btnSubmit" type="submit" value="Add"
                                 disabled="disabled"/></div>
                 </form>

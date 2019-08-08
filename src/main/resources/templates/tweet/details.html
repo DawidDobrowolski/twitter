@@ -34,7 +34,7 @@
         </a>
         <br>
         <br>
-        <div class="hr-sect">Comments</div>
+        <div class="hr-sect" style="font-size: 20px">Comments</div>
         <div class="media comment-box transparent" th:each=" comment: ${tweet.comments}">
             <div class="media-left">
                 <i class="far fa-comment-alt fa-2x"></i>
@@ -59,7 +59,7 @@
             </div>
         </div>
         <br>
-        <div class="hr-sect">Add new comment</div>
+        <div class="hr-sect" style="font-size: 20px">Add new comment</div>
         <br>
         <form th:action="@{/comment/add/{id}(id=${tweetId})}" method="post" th:object="${comment}">
             <input type="hidden" name="id" th:field="*{id}"/>
@@ -67,11 +67,11 @@
             <input type="hidden" name="created" th:field="*{created}"/>
             <div class="form-group col-md-4 offset-md-4">
                 <textarea class="form-control input-sm " id="message" placeholder="Comment text"
-                          maxlength="60" rows="3" name="text" th:field="*{text}"></textarea>
+                          maxlength="1500" rows="3" name="text" th:field="*{text}"></textarea>
                 <span class="help-block"><p id="characterLeft"
                                             class="help-block ">You have reached the limit</p></span>
             </div>
-            <div th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text error</div>
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text error</div>
             <div><input class="btn btn-outline-primary" id="btnSubmit" type="submit" value="Add" disabled="disabled"/>
             </div>
         </form>

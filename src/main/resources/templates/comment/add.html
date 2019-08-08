@@ -1,18 +1,37 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>New comment</title>
+    <meta http-equiv="Content-Type" content="text/html" ; charset=UTF-8"/>
+    <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"/>
+    <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet"/>
+    <script type="text/javascript" th:src="@{/js/commentAdd.js}"></script>
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/5.9.0/css/all.css}" media="all"/>
 </head>
 <body>
 <header th:include="fragments/header :: pageheader"></header>
-<form th:action="@{/comment/add/{id}(id=${tweetId})}" method="post" th:object="${comment}">
-    <input type="hidden" name="id"  th:field="*{id}" />
-    <input type="hidden" name="user"  th:field="*{user}" />
-    <input type="hidden" name="created"  th:field="*{created}" />
-    <div><label> Text : <textarea name="text" th:field="*{text}"></textarea></label></div>
-    <div th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text error</div>
-    <div><input type="submit" value="Save"/></div>
-</form>
+<div class="container card mt-3 col-md-6 transparent text-center">
+    <div class="card-body">
+        <h1 class="sep">Comment <i class="far fa-comment-alt"></i>
+        </h1>
+        <br>
+        <form th:action="@{/comment/add/{id}(id=${tweetId})}" method="post" th:object="${comment}">
+            <input type="hidden" name="id" th:field="*{id}"/>
+            <input type="hidden" name="user" th:field="*{user}"/>
+            <input type="hidden" name="created" th:field="*{created}"/>
+            <div class="form-group col-md-4 offset-md-4">
+                <textarea class="form-control input-sm " id="message" placeholder="Comment text"
+                          maxlength="60" rows="3" name="text" th:field="*{text}"></textarea>
+                <span class="help-block"><p id="characterLeft"
+                                            class="help-block ">You have reached the limit</p></span>
+            </div>
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text error</div>
+            <div><input class="btn btn-outline-primary" id="btnSubmit" type="submit" value="Add"/>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 </html>

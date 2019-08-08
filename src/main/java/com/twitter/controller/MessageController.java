@@ -37,9 +37,10 @@ public class MessageController {
     }
 
     @PostMapping("/send/{receiverId}")
-    public String sendMessage(@Valid Message message, BindingResult result, @AuthenticationPrincipal CurrentUser customUser, @PathVariable Long receiverId) {
+    public String sendMessage(Model model,@Valid Message message, BindingResult result, @AuthenticationPrincipal CurrentUser customUser, @PathVariable Long receiverId) {
         if (result.hasErrors()) {
-            return "message/add";
+            model.addAttribute("receiver", messageService.getUserById(receiverId));
+            return "message/send";
         }
         if (customUser.getUser().getId()!=receiverId) {
             messageService.saveMessage(message, receiverId, customUser.getUser().getId());
@@ -62,16 +63,19 @@ public class MessageController {
     }
 
     @GetMapping("/talk/{id}")
-    public String showTalk(Model model, @PathVariable Long id) {
+    public String showTalk(Model model, @PathVariable Long id,@AuthenticationPrincipal CurrentUser customUser) {
+        if(customUser.getUser().getId()==id){
+            return "redirect:/message/inbox";
+        }
         model.addAttribute("receiver", messageService.getUserById(id));
         model.addAttribute("message", new Message());
-        model.addAttribute("messages", messageService.getTalkMessages(id));
+        model.addAttribute("messages", messageService.getTalkMessages(id,customUser.getUser().getId()));
         return "/message/talk";
     }
 
     @GetMapping("/details/{id}")
-    public String showDetails(Model model, @PathVariable Long id) {
-        model.addAttribute("message", messageService.readMessageById(id));
+    public String showDetails(Model model, @PathVariable Long id, @AuthenticationPrincipal CurrentUser customUser) {
+        model.addAttribute("message", messageService.readMessageById(id,customUser.getUser().getId()));
         return "/message/details";
     }
 }

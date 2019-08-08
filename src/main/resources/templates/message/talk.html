@@ -1,46 +1,64 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Conversation</title>
+    <meta http-equiv="Content-Type" content="text/html" ; charset=UTF-8"/>
+    <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"/>
+    <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet"/>
+    <script type="text/javascript" th:src="@{/js/messageTalk.js}"></script>
 </head>
 <body>
 <header th:include="fragments/header :: pageheader"></header>
-<a th:href="@{/message/inbox}">Inbox</a>
-<a th:href="@{/message/outbox}">Outbox</a>
-
-<h2 th:text="${mailbox}"></h2>
-
-<table border="1">
-    <tr th:each="message: ${messages}">
-        <div th:switch="${#authentication.getPrincipal().getUser().getId()}">
-            <span th:case="${message.sender.id}">
-                <td></td>
-                <td>
-                    <p th:text="|${#strings.abbreviate(message.text,30)}"></p>
-                    <p th:text="${#temporals.format(message.created, 'dd-MM-yyyy HH:mm')}"></p>
-                    <a th:href="@{/message/details/{id}(id=${message.id})}">Details</a>
-                </td>
-            </span>
-            <span th:case="*">
-                       <td>
-                    <p th:text="|${#strings.abbreviate(message.text,30)}"></p>
-                    <p th:text="${#temporals.format(message.created, 'dd-MM-yyyy HH:mm')}"></p>
-                    <a th:href="@{/message/details/{id}(id=${message.id})}">Details</a>
-                </td>
-                    <td></td>
-            </span>
+<div class="container card mt-3 col-md-8 transparent">
+    <div class="card-body">
+        <div class="text-center">
+            <a class="btn btn-outline-primary btn-lg" th:href="@{/message/inbox}">Inbox</a>
+            <a class="btn btn-outline-primary btn-lg" th:href="@{/message/outbox}">Outbox</a>
         </div>
-    </tr>
-</table>
-<br>
+        <br>
+        <h2 class="hr-sect"
+            th:text="|Conversation with ${receiver.name}|"></h2>
+        <br>
+        <ul class="timeline">
+            <li th:each="message: ${messages}"
+                th:classappend="${#authentication.getPrincipal().getUser().getId()}==${message.receiver.id} ?  timeline-regular : timeline-inverted">
+                <div class="timeline-badge"
+                     th:classappend="${#authentication.getPrincipal().getUser().getId()}==${message.receiver.id} ?  warning : success">
+                    <i class="glyphicon glyphicon-check"></i>
+                </div>
+                <div class="timeline-panel transparent">
+                    <div class="timeline-heading">
+                        <span class="timeline-title email-user" th:text="${message.sender.name}">Name</span>
+                        <span style="float: right" class="text-muted"><i class="glyphicon glyphicon-time"></i> <span
+                                th:text="${#temporals.format(message.created, 'dd-MM-yyyy HH:mm')}"></span></span>
+                    </div>
+                    <hr>
+                    <div class="timeline-body">
+                        <p th:text="|${#strings.abbreviate(message.text,120)}">
 
-<form th:action="@{/message/send/{receiverId}(receiverId=${receiver.id})}" method="post" th:object="${message}">
-    <div><label> Message : <textarea name="text" th:field="*{text}"></textarea></label></div>
-    <div th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text error</div>
-    <div><input type="submit" value="Send"/></div>
-</form>
-
-
+                        </p>
+                        <a class="btn btn-outline-secondary btn-sm" style="float: right"
+                           th:href="@{/message/details/{id}(id=${message.id})}">Details</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <br>
+        <h3 class="hr-sect">Send message</h3>
+        <br>
+        <form th:action="@{/message/send/{receiverId}(receiverId=${receiver.id})}" method="post" th:object="${message}">
+            <div>
+                    <textarea class="form-control input-sm " id="message" placeholder="Message text"
+                              maxlength="1500" rows="7" name="text" th:field="*{text}"></textarea>
+                <span class="help-block"><p id="characterLeft" class="help-block ">You have reached the limit</p></span>
+            </div>
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text error</div>
+            <div><input class="btn btn-outline-primary" id="btnSubmit" type="submit" value="Send" disabled="disabled"/>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 </html>

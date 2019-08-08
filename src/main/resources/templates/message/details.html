@@ -1,17 +1,48 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>E-mail details</title>
+    <meta http-equiv="Content-Type" content="text/html" ; charset=UTF-8"/>
+    <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"/>
+    <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/5.9.0/css/all.css}" media="all"/>
 </head>
 <body>
 <header th:include="fragments/header :: pageheader"></header>
-
-
-<h3>From: </h3><p th:text="${message.sender.name}" />
-<h3>To: </h3><p th:text="${message.receiver.name}" />
-<h3>Created: </h3><p th:text="${#temporals.format(message.created, 'dd-MM-yyyy HH:mm')}" />
-<h3>Text: </h3><p th:text="${message.text}" />
-
+<div class="container card mt-3 col-md-6 transparent">
+    <div class="card-body">
+        <h1 class="hr-sect"><i class="fas fa-at"></i>&nbsp; E-mail details</h1>
+        <div class="media comment-box transparent">
+            <div class="media-left">
+                <i class="fas fa-at fa-2x"></i>
+            </div>
+            <div class="media-body">
+                <p class="media-heading">
+                    From:
+                    <span class="font-weight-bold" th:text="${message.sender.name}"></span></a>
+                    <br>
+                    <br>
+                    To:
+                    <span class="font-weight-bold" th:text="${message.receiver.name}"></span></a>
+                    <span style="float: right" th:text="${#temporals.format(message.created, 'dd-MM-yyyy HH:mm')}">31.12.2019</span>
+                </p>
+                <p>
+                    <span th:text="${message.text}"></span>
+                </p>
+            </div>
+        </div>
+        <br>
+        <div class="text-center">
+            <span th:if="${#authentication.getPrincipal().getUser().getId()}==${message.sender.id}">
+                <a class="btn btn-outline-primary btn-lg" th:href="@{/message/talk/{id}(id=${message.receiver.id})}">Show conversation</a>
+            </span>
+            <span th:if="${#authentication.getPrincipal().getUser().getId()}==${message.receiver.id}">
+                <a class="btn btn-outline-primary btn-lg" th:href="@{/message/talk/{id}(id=${message.sender.id})}">Show conversation</a>
+            </span>
+        </div>
+    </div>
+</div>
 </body>
 </html>

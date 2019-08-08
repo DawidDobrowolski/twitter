@@ -13,6 +13,6 @@ public interface MessageRepository extends JpaRepository<Message,Long> {
 
     List<Message> getAllBySenderId(Long id);
 
-    @Query("SELECT m FROM Message m WHERE m.sender.id=:id OR m.receiver.id=:id")
-    List<Message> customGetAllBySenderIdAndReceiverId(@Param("id") Long id);
+    @Query("SELECT m FROM Message m WHERE (m.sender.id=:id and m.receiver.id=:myId) OR (m.receiver.id=:id and m.sender.id=:myId)")
+    List<Message> customGetAllBySenderIdAndReceiverId(@Param("id") Long id,@Param("myId") Long myId);
 }

@@ -53,17 +53,19 @@ public class MessageService {
         return messages;
     }
 
-    public List<Message> getTalkMessages(Long id) {
-        List<Message> messages = messageRepository.customGetAllBySenderIdAndReceiverId(id);
+    public List<Message> getTalkMessages(Long id, Long myId) {
+        List<Message> messages = messageRepository.customGetAllBySenderIdAndReceiverId(id,myId);
         messages = messages.stream()
                 .sorted((m1, m2) -> m1.getCreated().compareTo(m2.getCreated()))
                 .collect(Collectors.toList());
         return messages;
     }
 
-    public Message readMessageById(Long id){
+    public Message readMessageById(Long id,Long loggedId){
         Message message = messageRepository.findOne(id);
-        message.setReaded(true);
+        if(message.getReceiver().getId()==loggedId){
+            message.setReaded(true);
+        }
         return message;
     }
 }

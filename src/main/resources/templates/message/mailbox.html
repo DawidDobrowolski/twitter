@@ -1,42 +1,62 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.springframework.org/schema/security">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Mailbox</title>
+    <meta http-equiv="Content-Type" content="text/html" ; charset=UTF-8"/>
+    <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"/>
+    <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet"/>
 </head>
 <body>
 <header th:include="fragments/header :: pageheader"></header>
-<a th:href="@{/message/inbox}">Inbox</a>
-<a th:href="@{/message/outbox}">Outbox</a>
+<div class="container card mt-3 col-md-8 transparent">
+    <div class="card-body">
+        <div class="text-center">
+            <a class="btn btn-outline-primary btn-lg" th:href="@{/message/inbox}">Inbox</a>
+            <a class="btn btn-outline-primary btn-lg" th:href="@{/message/outbox}">Outbox</a>
+        </div>
+        <h1 class="hr-sect" th:text="${mailbox}"></h1>
 
-<h2 th:text="${mailbox}"></h2>
 
-<table border="1">
-    <tr>
-        <th>User</th>
-        <th>Text</th>
-        <th>Created</th>
-        <th>Actions</th>
-    </tr>
-    <tr th:each="message: ${messages}">
-        <td>
-            <div th:switch="${mailbox}">
-            <span th:case="Inbox">
-                <a th:href="@{/message/talk/{id}(id=${message.sender.id})}">
-            <p th:text="${message.sender.name}"></p></a>
-            </span>
-                <span th:case="Outbox">
-                <a th:href="@{/message/talk/{id}(id=${message.receiver.id})}">
-            <p th:text="${message.receiver.name}"></p></a>
-            </span>
-            </div>
-        </td>
-        <td th:text="|${#strings.abbreviate(message.text,30)}"></td>
-        <td th:text="${#temporals.format(message.created, 'dd-MM-yyyy HH:mm')}"></td>
-        <td>
-            <a th:href="@{/message/details/{id}(id=${message.id})}">Details</a>
-        </td>
-    </tr>
-</table>
+        <table class="table table-hover">
+            <tr class="table-primary">
+                <th style="width: 20%">User</th>
+                <th style="width: 48%">Text</th>
+                <th style="width: 15%">Created</th>
+                <th style="width: 17%">Actions</th>
+            </tr>
+            <tr th:each="message: ${messages}"
+                th:classappend="${mailbox} == 'Inbox' and ${!message.readed} ? font-weight-bold : font-weight-normal">
+                <td>
+                    <div th:switch="${mailbox}">
+                        <span th:case="Inbox">
+                            <a th:href="@{/message/talk/{id}(id=${message.sender.id})}">
+                                <p th:text="${message.sender.name}"></p></a>
+                        </span>
+                        <span th:case="Outbox">
+                            <a th:href="@{/message/talk/{id}(id=${message.receiver.id})}">
+                                <p th:text="${message.receiver.name}"></p></a>
+                        </span>
+                    </div>
+                </td>
+                <td th:text="|${#strings.abbreviate(message.text,30)}"></td>
+                <td th:text="${#temporals.format(message.created, 'dd-MM-yyyy HH:mm')}"></td>
+                <td>
+                    <a class="btn btn-secondary btn-sm" th:href="@{/message/details/{id}(id=${message.id})}">Details</a>
+                    <span th:switch="${mailbox}">
+                        <span th:case="Inbox">
+                            <a class="btn btn-success btn-sm" th:href="@{/message/talk/{id}(id=${message.sender.id})}">Conversation</a>
+                        </span>
+                        <span th:case="Outbox">
+                            <a class="btn btn-success btn-sm" th:href="@{/message/talk/{id}(id=${message.receiver.id})}">Conversation</a>
+                        </span>
+                    </span>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</div>
 </body>
 </html>
