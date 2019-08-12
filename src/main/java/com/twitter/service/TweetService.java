@@ -58,7 +58,7 @@ public class TweetService {
         Tweet tweet = tweetRepository.findOne(id);
         Hibernate.initialize(tweet.getComments());
         tweet.setComments(tweet.getComments().stream()
-                .sorted((t1, t2) -> t2.getCreated().compareTo(t1.getCreated()))
+                .sorted((t1, t2) -> t1.getCreated().compareTo(t2.getCreated()))
                 .collect(Collectors.toList()));
         return tweet;
     }

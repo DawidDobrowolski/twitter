@@ -4,7 +4,7 @@ $(document).ready(function () {
     $('#message').keyup(function () {
         var max = 140;
         var len = $(this).val().length;
-        if (len >= max) {
+        if (len > max) {
             $('#characterLeft').text('You have reached the limit');
             $('#characterLeft').addClass('red');
             $('form :submit').attr("disabled", "disabled");       }

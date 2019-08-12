@@ -1,5 +1,5 @@
 # Twitter Application
-After course project for CodersLab <b>Java Developer Web</b> programming bootcamp
+After course project - self study of new technologies: <b>Spring Boot, Spring Security, Thymeleaf</b>
 
 ## Application live
 <a target="_blank" href="http://twitterapp.us-east-2.elasticbeanstalk.com/">Test app</a>
