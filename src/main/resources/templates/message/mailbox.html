@@ -40,7 +40,7 @@
                         </span>
                     </div>
                 </td>
-                <td th:text="|${#strings.abbreviate(message.text,30)}"></td>
+                <td th:text="|${#strings.abbreviate(message.text,80)}"></td>
                 <td th:text="${#temporals.format(message.created, 'dd-MM-yyyy HH:mm')}"></td>
                 <td>
                     <a class="btn btn-secondary btn-sm" th:href="@{/message/details/{id}(id=${message.id})}">Details</a>
