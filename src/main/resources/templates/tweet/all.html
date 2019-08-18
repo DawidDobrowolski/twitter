@@ -36,20 +36,20 @@
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <ul class="timeline2">
-                    <li class="border rounded tweet" th:each="tweet: ${tweets}">
+                    <li style="display: inline-block" class="border rounded tweet" th:each="tweet: ${tweets}">
                         <a th:href="@{/twitter/{id}(id=${tweet.user.id})}"><span
                                 th:text="${tweet.user.name}"></span></a>
-                        <p class="float-right"
-                           th:text="${#temporals.format(tweet.created, 'dd-MM-yyyy HH:mm')}"></p>
+                        <span style="margin-left: 10%" class="float-right"
+                           th:text="${#temporals.format(tweet.created, 'dd-MM-yyyy HH:mm')}"></span>
                         <br>
-                        <div>
+                        <div style="display: inline-block">
                             <span th:text="${#strings.abbreviate(tweet.text,100)}"></span>
                             <br>
-                            <p class="float-left commentNum">
+                            <span class="float-left commentNum">
                                 <span>Comments: </span>
                                 <span th:text="${#lists.size(tweet.comments)}"></span>
-                            </p>
-                            <p class="float-right">
+                            </span>
+                            <span class="float-right">
                                 <a class="btn btn-secondary btn-small"
                                    th:href="@{/twitter/details/{id}(id=${tweet.id})}">Details</a>
                                 <span th:if="${#authentication.getPrincipal().getUser().getId()}==${tweet.user.id}">
@@ -61,7 +61,7 @@
                                        th:attr="data-tweet-id=${tweet.id}"
                                        title="Delete tweet">Delete</a>
                                 </span>
-                            </p>
+                            </span>
                             <br>
                         </div>
                     </li>
