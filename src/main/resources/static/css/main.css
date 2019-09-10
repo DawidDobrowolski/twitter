@@ -74,6 +74,7 @@ ul.timeline2 > li:before {
     border-width: medium !important;
     text-align: justify;
     box-shadow: 8px 8px 8px -4px rgba(0, 0, 0, 0.39);
+    width: 100%;
 }
 
 .btn-small {

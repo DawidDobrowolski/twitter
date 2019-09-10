@@ -42,7 +42,7 @@
                         <span class="float-right"
                            th:text="${#temporals.format(tweet.created, 'dd-MM-yyyy HH:mm')}"></span>
                         <br>
-                        <div style="display: inline-block">
+                        <div style="display: inline-block; width: 100%">
                             <span th:text="${#strings.abbreviate(tweet.text,100)}"></span>
                             <br>
                             <span class="float-left commentNum">
